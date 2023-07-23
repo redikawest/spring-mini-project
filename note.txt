@@ -1,0 +1,8 @@
+## Lombok
+
+1. Data
+    Membuat Getter Setter
+    Gabungan dari @Getter @Setter @RequiredArgsConstructor @ToString @EqualsAndHashCode.
+
+2. AllArgsConstructor
+    Membuat Constructor
