@@ -1,6 +1,7 @@
 package com.example.latihan.Partner.service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,23 @@ public class PartnerCategoryService {
     @Autowired
     private PartnerCategoryRepository partnerCategoryRepository;
 
+    public List<PartnerCategoryResponse> getAll() {
+        List<PartnerCategory> partnerCategories = partnerCategoryRepository.findAll();
+        
+        List<PartnerCategoryResponse> partnerCategoryResponses = partnerCategories.stream()
+                .map(this::response)
+                .toList();
+
+        return partnerCategoryResponses;
+    }
+
+    public PartnerCategoryResponse getDetail(String id) {
+        PartnerCategory partnerCategory = partnerCategoryRepository.findById(id)
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Partner Category is not found"));
+
+        return response(partnerCategory);
+    }
+
     public PartnerCategoryResponse create(CreatePartnerCategoryDto request) {
         PartnerCategory partnerCategory = new PartnerCategory();
         partnerCategory.setName(request.getName());
@@ -27,13 +45,6 @@ public class PartnerCategoryService {
         partnerCategory.setCreated_at(new Timestamp(0));
 
         partnerCategoryRepository.save(partnerCategory);
-
-        return response(partnerCategory);
-    }
-
-    public PartnerCategoryResponse getDetail(String id) {
-        PartnerCategory partnerCategory = partnerCategoryRepository.findById(id)
-                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Partner Category is not found"));
 
         return response(partnerCategory);
     }
@@ -59,6 +70,13 @@ public class PartnerCategoryService {
 
         return Response.<String>builder().data("OK").build();
     }
+
+
+    /*
+     * 
+     * Private Function
+     * 
+     */
 
     private PartnerCategoryResponse response(PartnerCategory partnerCategory) {
         return PartnerCategoryResponse.builder()

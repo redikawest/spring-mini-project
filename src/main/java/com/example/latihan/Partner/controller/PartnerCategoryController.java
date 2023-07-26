@@ -2,6 +2,7 @@ package com.example.latihan.Partner.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import com.example.latihan.Partner.service.PartnerCategoryService;
 import com.example.latihan.Utils.Response;
 
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -28,6 +30,15 @@ public class PartnerCategoryController {
     @Autowired
     private final PartnerCategoryService partnerCategoryService;
 
+    @GetMapping(
+        path = "/api/server/partner/category",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<List<PartnerCategoryResponse>> getAll() {
+        
+        List<PartnerCategoryResponse> partnerCategoryResponses = partnerCategoryService.getAll();
+        return ResponseEntity.ok().body(partnerCategoryResponses);
+    }
 
     @GetMapping(
         path = "/api/server/partner/category/{categoryId}",
@@ -68,7 +79,7 @@ public class PartnerCategoryController {
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public Response<String> delete(@PathVariable("categoryId") String categoryId) {
-        
+
         partnerCategoryService.delete(categoryId);
         return Response.<String>builder().data("OK").build();
     }
