@@ -3,6 +3,8 @@ package com.example.latihan.Partner.entity;
 import java.sql.Timestamp;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,6 +21,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "partner_categories")
+@SQLDelete(sql = "UPDATE partner_categories SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 public class PartnerCategory {
     
     @Id
@@ -38,4 +42,6 @@ public class PartnerCategory {
 
     @Column(nullable = true)
     private Timestamp updated_at;
+
+    private boolean deleted = Boolean.FALSE;
 }
