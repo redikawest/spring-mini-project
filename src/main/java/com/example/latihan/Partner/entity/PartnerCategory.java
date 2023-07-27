@@ -1,9 +1,10 @@
 package com.example.latihan.Partner.entity;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import jakarta.persistence.Column;
@@ -36,12 +37,11 @@ public class PartnerCategory {
     @Column(nullable = true)
     private String description;
 
-    @Column(nullable = false)
     @CreationTimestamp
-    private Timestamp created_at;
+    private Instant created_at;
 
-    @Column(nullable = true)
-    private Timestamp updated_at;
+    @UpdateTimestamp
+    private Instant updated_at;
 
     private boolean deleted = Boolean.FALSE;
 }

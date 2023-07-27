@@ -8,7 +8,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class CreatePartnerCategoryDto {
     
-    @NotBlank
+    @NotBlank(message = "name is required")
     private String name;
 
     private String description;

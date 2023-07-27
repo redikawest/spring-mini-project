@@ -1,6 +1,6 @@
 package com.example.latihan.Partner.response;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,5 +19,5 @@ public class PartnerCategoryResponse {
 
     private String description;
 
-    private Timestamp created_at;
+    private Instant created_at;
 }

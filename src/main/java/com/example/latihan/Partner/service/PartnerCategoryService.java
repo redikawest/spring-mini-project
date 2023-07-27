@@ -1,6 +1,5 @@
 package com.example.latihan.Partner.service;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +38,8 @@ public class PartnerCategoryService {
     }
 
     public PartnerCategoryResponse create(CreatePartnerCategoryDto request) {
-        PartnerCategory partnerCategory = new PartnerCategory();
-        partnerCategory.setName(request.getName());
-        partnerCategory.setDescription(request.getDescription());
-        partnerCategory.setCreated_at(new Timestamp(0));
-
-        partnerCategoryRepository.save(partnerCategory);
+        
+        PartnerCategory partnerCategory = createCategory(request);
 
         return response(partnerCategory);
     }
@@ -53,11 +48,7 @@ public class PartnerCategoryService {
         PartnerCategory partnerCategory = partnerCategoryRepository.findById(id)
                         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Partner Category is not found"));
 
-        partnerCategory.setName(request.getName());
-        partnerCategory.setDescription(request.getDescription());
-        partnerCategory.setUpdated_at(new Timestamp(0));
-
-        partnerCategoryRepository.save(partnerCategory);
+        partnerCategory = updateCategory(request, partnerCategory);
 
         return response(partnerCategory);
     }
@@ -77,6 +68,27 @@ public class PartnerCategoryService {
      * Private Function
      * 
      */
+
+    private PartnerCategory createCategory(CreatePartnerCategoryDto request) {
+
+        PartnerCategory partnerCategory = new PartnerCategory();
+        partnerCategory.setName(request.getName());
+        partnerCategory.setDescription(request.getDescription());
+
+        partnerCategoryRepository.save(partnerCategory);
+
+        return partnerCategory;
+    }
+
+    private PartnerCategory updateCategory(UpdatePartnerCategoryDto request, PartnerCategory partnerCategory) {
+
+        partnerCategory.setName(request.getName());
+        partnerCategory.setDescription(request.getDescription());
+
+        partnerCategoryRepository.save(partnerCategory);
+
+        return partnerCategory;
+    }
 
     private PartnerCategoryResponse response(PartnerCategory partnerCategory) {
         return PartnerCategoryResponse.builder()
